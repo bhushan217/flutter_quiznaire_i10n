@@ -1,0 +1,37 @@
+{
+  "@@locale": "en",
+  "helloWorld": "Hello World!",
+  "@helloWorld": {
+    "description": "The conventional newborn programmer greeting"
+  },
+  "hello": "Hello {userName}",
+  "@hello": {
+    "description": "A message with a single parameter",
+    "placeholders": {
+      "userName": {
+        "type": "String",
+        "example": "Bhushan"
+      }
+    }
+  },
+  "scoreResult": "Score Result {scoreOutOf}",
+  "@scoreResult": {
+    "description": "A message with a single parameter",
+    "placeholders": {
+      "scoreOutOf": {
+        "type": "String",
+        "example": "8/10"
+      }
+    }
+  },
+  "appTitle": "Quiznaire",
+  "save": "Save",
+  "true_": "True",
+  "false_": "False",
+  "yes": "Yes",
+  "no": "No",
+  "valid": "Valid",
+  "invalid": "Invalid",
+  "won": "Won",
+  "lost": "हरले"
+}

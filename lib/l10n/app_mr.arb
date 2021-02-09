@@ -1,0 +1,17 @@
+{
+  "@@locale": "mr",
+  "helloWorld": "नमस्कार मित्रांनो!",
+  "hello": "नमस्कार {userName}",
+  "scoreResult": "निकाल: {scoreOutOf}",
+  "appTitle": "प्रश्नोत्तरी",
+  "save": "जतन करा",
+  "cancel": "रद्द करा",
+  "true_": "खरे",
+  "false_": "खोटे",
+  "yes": "होय",
+  "no": "नाही",
+  "valid": "वैध",
+  "invalid": "अवैध",
+  "won": "जिंकला",
+  "lost": "हरले"
+}
