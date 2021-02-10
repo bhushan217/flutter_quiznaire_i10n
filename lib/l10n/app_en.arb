@@ -33,5 +33,9 @@
   "valid": "Valid",
   "invalid": "Invalid",
   "won": "Won",
-  "lost": "हरले"
+  "lost": "Lost",
+  "question1": "Is Mumbai in Maharashtra?",
+  "question2": "Is 1+1 equals 2?",
+  "question3": "Can Tomcat give milk?",
+  "restart": "Restart"
 }

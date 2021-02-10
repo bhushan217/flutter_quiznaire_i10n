@@ -1,13 +1,20 @@
 import './question.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class QuizBook {
   int _currentIndex = 0;
   bool _completed = false;
-  List<Question> questionBank = [
-    Question('Is Mumbai in Maharashtra?', true),
-    Question('Is 1+1 equals 2?', true),
-    Question('Can Tomcat give milk?', false),
-  ];
+  List<Question> questionBank = [];
+
+  void initQuestions(AppLocalizations appLocalizations){
+    questionBank.add(Question(appLocalizations.question1, true));
+    questionBank.add(Question(appLocalizations.question2, true));
+    questionBank.add(Question(appLocalizations.question3, false));
+  }
+  void reset(){
+    _currentIndex = 0;
+    _completed = false;
+  }
 
   String getQuestionText() {
     return questionBank[_currentIndex].text;
@@ -22,11 +29,13 @@ class QuizBook {
     return _currentIndex;
   }
   void nextQuestion() {
-    if(_currentIndex < questionBank.length - 1) {
+    if(_currentIndex < getTotalQuestions() - 1) {
       _currentIndex++;
     }else{
       _completed = true;
     }
   }
+
+  int getTotalQuestions() { return questionBank.length;}
 
 }

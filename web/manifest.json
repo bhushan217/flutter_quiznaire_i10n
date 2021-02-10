@@ -1,6 +1,6 @@
 {
-    "name": "flutter_quiznaire_i10n",
-    "short_name": "flutter_quiznaire_i10n",
+    "name": "quiznaire",
+    "short_name": "quiznaire",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

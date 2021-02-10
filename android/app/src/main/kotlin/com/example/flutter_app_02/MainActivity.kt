@@ -1,4 +1,4 @@
-package com.example.flutter_quiznaire_i10n
+package com.example.quiznaire
 
 import io.flutter.embedding.android.FlutterActivity
 

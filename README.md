@@ -1,4 +1,4 @@
-# flutter_quiznaire_i10n
+# quiznaire
 
 A new Flutter project.
 

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import './store/quiz_book.dart';
 
-var _quizBook = new QuizBook();
 
 void main() async {
   runApp(MyApp());
@@ -58,15 +56,6 @@ class _MyAppState extends State<MyApp> {
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
 
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
   final String title;
 
   @override
@@ -79,6 +68,22 @@ class _MyHomePageState extends State<MyHomePage> {
   var correctIcon = Icon(Icons.check_circle, color: Colors.green,);
   var incorrectIcon = Icon(Icons.remove_circle_outline, color: Colors.red,);
   List<Icon> scoreKeeper = [];
+  var _quizBook = QuizBook();
+  var _appTitle='', _true='', _false='', _restart;
+
+  @override
+  void initState() {
+    super.initState();
+    new Future.delayed(Duration.zero,() {
+      var appLocalizations = AppLocalizations.of(context);
+      _quizBook.initQuestions(appLocalizations);
+      _appTitle = appLocalizations.appTitle;
+      _restart = appLocalizations.restart;
+      _true = appLocalizations.true_;
+      _false = appLocalizations.false_;
+    });
+  }
+
   void checkAnswer(bool userPickedAnswer){
     bool correctAnswer = _quizBook.getCorrectAnswer();
     print("_quizBook.getCurrentIndex() : " + _quizBook.getCurrentIndex().toString());
@@ -91,33 +96,31 @@ class _MyHomePageState extends State<MyHomePage> {
         if ( isCorrect) {_counter++;}
         _quizBook.nextQuestion();
         if(_quizBook.isCompleted()){
-          _finalResult = AppLocalizations.of(context).scoreResult(_counter.toString() + "/" +(_quizBook.getCurrentIndex() + 1).toString());
-
+          _finalResult = AppLocalizations.of(context).scoreResult(
+              _counter.toString() + "/" +
+                  (_quizBook.getCurrentIndex() + 1).toString()).toString()
+              + " - "+ (
+              _counter == _quizBook.getTotalQuestions()
+                  ? AppLocalizations.of(context).won
+                  : _counter > _quizBook.getTotalQuestions() /2 ? AppLocalizations.of(context).valid : AppLocalizations.of(context).lost
+          );
         }
-      });
-    }else{
-      print("_quizBook.getCurrentIndex() : ");
-      setState(() {
-      _finalResult = /*_counter.toString() + "/" +
-          (_quizBook.getCurrentIndex() + 1).toString();*/
-      AppLocalizations.of(context).scoreResult(
-          _counter.toString() + "/" +
-              (_quizBook.getCurrentIndex() + 1).toString()).toString();
       });
     }
   }
-  void _incrementCounter() {
+  void _resetCounter() {
+    print("restart onPressed");
     setState(() {
-      if(_quizBook.questionBank.length > _counter) {
-        _counter++;
-      }
+      _quizBook.reset();
+      scoreKeeper = [];
+      _counter = 0;
+      _finalResult = '';
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    var appTitle = AppLocalizations.of(context).appTitle;
-    var helloWorld = AppLocalizations.of(context).helloWorld;
+
 
     return Scaffold(
       appBar: AppBar(
@@ -130,7 +133,7 @@ class _MyHomePageState extends State<MyHomePage> {
               );
             },
           ),
-        title: Text(appTitle),
+        title: Text(_appTitle),
       ),
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
@@ -138,48 +141,52 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(AppLocalizations.of(context).appTitle),
+            Text(_appTitle),
             Text('$_counter', style: Theme.of(context).textTheme.headline4),
-            Text(_quizBook.getQuestionText()),
+            Text(_quizBook.getTotalQuestions() >0 ? _quizBook.getQuestionText() :''),
             Row(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: <Widget>[
                 Expanded(
                   child:
                   TextButton.icon(
-                      onPressed: () {
+                      onPressed: !_quizBook.isCompleted() ? () {
                         print("true_ onPressed");
                         checkAnswer(true);
-                      },
+                      }:(){},
                       icon: Icon(Icons.check, color: Colors.green),
-                      label: Text(AppLocalizations.of(context).true_)
+                      label: Text(_true)
                   ),
                 ),
                 Expanded(
                   child:
                   TextButton.icon(
-                      onPressed: () {
+                      onPressed: !_quizBook.isCompleted() ? () {
                         print("false_ onPressed");
                         checkAnswer(false);
-                      },
+                      }:(){},
                       icon: Icon(Icons.close, color: Colors.red,),
-                      label: Text(AppLocalizations.of(context).false_)
+                      label: Text(_false)
                   ),
                 ),
               ],
             ),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: scoreKeeper,
+            Expanded(
+              child:Text(_finalResult) ,
             ),
-            Text(_finalResult)
+            Expanded(
+              child:Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: scoreKeeper,
+                ),
+            ),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
+        onPressed: _resetCounter,
+        tooltip: _restart,
+        child: Icon(Icons.reset_tv),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }

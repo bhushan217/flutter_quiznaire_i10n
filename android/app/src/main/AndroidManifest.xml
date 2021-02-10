@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.flutter_quiznaire_i10n">
+    package="com.example.quiznaire">
    <application
-        android:label="flutter_quiznaire_i10n"
+        android:label="quiznaire"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
